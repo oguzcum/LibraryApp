@@ -1,0 +1,81 @@
+﻿@page
+@using Microsoft.AspNetCore.Identity
+@using LibraryApp1.Models
+
+
+@inject SignInManager<UserInfo> SignInManager
+@inject UserManager<UserInfo> UserManager
+
+
+
+@model LibraryApp1.Pages.User
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ana Sayfa</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/css/style.css" rel="stylesheet">
+    <style>
+        .card-img-top {
+            height: 200px; /* ya da istediğiniz bir değer */
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+                <div class="search-bar mt-3">
+                    <form method="GET" action="">
+                        <div class="input-group">
+                            <input type="text" class="form-control" name="search" placeholder="Kitap veya Yazar Ara">
+                            <div class="input-group-append">
+                                <button class="btn btn-primary" type="submit">Ara</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="row mt-3" style="margin-bottom:100px">
+                    @foreach (var product in Model.Products)
+                    {
+                        <div class="col-md-4 mb-3">
+                            <div class="card">
+                                <img src="~/images/@Url.Content(product.ProductPhoto)" class="card-img-top" alt="product">
+                                <div class="card-body">
+                                    <h5 class="card-title"> @product.ProductName</h5>
+                                    <p class="card-text">stokta @product.ProductQuantity adet kaldı</p>
+
+
+                                    @if (SignInManager.IsSignedIn(User))
+                                    {
+                                        <form method="post" asp-page="Purchase" asp-route-productId="@product.ProductId">
+                                            <button type="submit" class="btn btn-primary">Kitabı Al</button>
+                                        </form>
+
+
+                                    }
+                                    else
+                                    {
+                                        <a href="/Identity/Account/Login" class="btn btn-primary">Kitabı Al</a>
+                                    }
+                                    
+                                        
+                                        
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
