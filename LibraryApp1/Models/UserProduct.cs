@@ -21,7 +21,7 @@ namespace LibraryApp1.Models
 
          public Product Product { get; set; }
        
-        public DateTime ProductPurchase { get; set; }
+        public DateTime ProductPurchase { get; set; } 
 
         
     }

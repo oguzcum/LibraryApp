@@ -1,16 +1,150 @@
 ﻿@page
-@model IndexModel
-@{
-    ViewData["Title"] = "Home page";
+@using Microsoft.AspNetCore.Identity
+@using LibraryApp1.Models
+
+
+@inject SignInManager<UserInfo> SignInManager
+@inject UserManager<UserInfo> UserManager
+
+
+
+@model LibraryApp1.Pages.IndexModel
+
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <div class="alert alert-danger" role="alert">
+        @Model.ErrorMessage
+    </div>
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ana Sayfa</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/css/style.css" rel="stylesheet">
+    <style>
+        .card-img-top {
+            height: 200px;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+    @if (User.IsInRole("admin"))
+    {
+        @if (Model.UserProducts != null && Model.UserProducts.Any())
+        {
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Product Namae</th>
+                        <th>Purchased Quantity</th>
+                        <th>Product Quantity</th>
+                        @foreach (var purchase in Model.UserProducts)
+                        {
+                        <tr>
+                            <td>@purchase.Product.ProductName</td>
+                            <td>@purchase.Product.ProductPurchased</td>
+                            <td>@purchase.Product.ProductQuantity</td>
 
-<a href="/User"> User</a>
-<br />
-<a href="/Admin"> Admin</a>
-<br />
-<a href="/Client"> Client</a>
+
+                        </tr>
+                        }
+
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+
+
+
+
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>User</th>
+                        <th>Product</th>
+                        <th>Purchase Date</th>
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var purchase in Model.UserProducts)
+                    {
+                        <tr>
+                            <td>@purchase.UserInfo.UserName</td>
+                            <td>@purchase.Product.ProductName</td>
+                            <td>@purchase.ProductPurchase</td>
+                           
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+           
+        }
+        else
+        {
+            <h3>Hiç alım bulunmamakta.</h3>
+        }
+    }
+    else
+    {
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 offset-md-2">
+                    <div class="search-bar mt-3">
+                        <form method="GET" action="">
+                            <div class="input-group">
+                                <input type="text" class="form-control" name="search" placeholder="Kitap veya Yazar Ara">
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary" type="submit">Ara</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="row mt-3" style="margin-bottom:100px">
+                        @if (Model.Products != null)
+                        {
+                            @foreach (var product in Model.Products)
+                            {
+                                <div class="col-md-4 mb-3">
+                                    <div class="card">
+                                        <img src="~/images/@Url.Content(product.ProductPhoto)" class="card-img-top" alt="product">
+                                        <div class="card-body">
+                                            <h5 class="card-title">@product.ProductName</h5>
+                                            <p class="card-text">Stokta @product.ProductQuantity adet kaldı</p>
+
+                                            @if (SignInManager.IsSignedIn(User))
+                                            {
+                                                <form method="post" asp-page-handler="Purchase" asp-route-productId="@product.ProductId">
+                                                    <button href="/MyBooks" type="submit" class="btn btn-primary">Kitabı Al</button>
+                                                </form>
+                                            }
+                                            else
+                                            {
+                                                <a href="/Identity/Account/Login" class="btn btn-primary">Kitabı Al</a>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
