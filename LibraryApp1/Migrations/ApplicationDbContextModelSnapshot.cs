@@ -38,6 +38,9 @@ namespace LibraryApp1.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("ProductPurchased")
+                        .HasColumnType("int");
+
                     b.Property<int>("ProductQuantity")
                         .HasColumnType("int");
 
@@ -165,13 +168,13 @@ namespace LibraryApp1.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "934b2e84-4c6d-4fc9-b5bc-28d11aa7814e",
+                            Id = "bd55e6fd-3cfb-47cf-9583-6459a7e3124c",
                             Name = "admin",
                             NormalizedName = "admin"
                         },
                         new
                         {
-                            Id = "778de982-a3d1-4994-b14a-c7bfd2aaf529",
+                            Id = "39ca2d52-55fc-420a-8f27-7d2b280129d5",
                             Name = "client",
                             NormalizedName = "client"
                         });

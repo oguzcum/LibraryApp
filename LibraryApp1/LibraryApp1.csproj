@@ -10,6 +10,13 @@
     <Compile Remove="Migrations\20240229143043_FirstMigration.cs" />
     <Compile Remove="Migrations\20240229143043_FirstMigration.Designer.cs" />
     <Compile Remove="Migrations\ApplicationDbContextModelSnapshot.cs" />
+    <Compile Remove="Pages\Admin.cshtml.cs" />
+    <Compile Remove="Pages\Client.cshtml.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="Pages\Admin.cshtml" />
+    <Content Remove="Pages\Client.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -25,7 +32,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
     <Folder Include="Migrations\" />
   </ItemGroup>
 

@@ -61,7 +61,8 @@ namespace LibraryApp1.Migrations
                     ProductName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ProductAuthor = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ProductQuantity = table.Column<int>(type: "int", nullable: false),
-                    ProductPhoto = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    ProductPhoto = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ProductPurchased = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -205,8 +206,8 @@ namespace LibraryApp1.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "778de982-a3d1-4994-b14a-c7bfd2aaf529", null, "client", "client" },
-                    { "934b2e84-4c6d-4fc9-b5bc-28d11aa7814e", null, "admin", "admin" }
+                    { "39ca2d52-55fc-420a-8f27-7d2b280129d5", null, "client", "client" },
+                    { "bd55e6fd-3cfb-47cf-9583-6459a7e3124c", null, "admin", "admin" }
                 });
 
             migrationBuilder.CreateIndex(

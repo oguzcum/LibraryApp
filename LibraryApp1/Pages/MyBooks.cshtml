@@ -1,0 +1,66 @@
+﻿@page
+@using Microsoft.AspNetCore.Identity
+@using LibraryApp1.Models
+
+@inject SignInManager<UserInfo> SignInManager
+@inject UserManager<UserInfo> UserManager
+
+@model LibraryApp1.Pages.MyBooksModel
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ana Sayfa</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/css/style.css" rel="stylesheet">
+    <style>
+        .card-img-top {
+            height: 200px;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+                <div class="row mt-3" style="margin-bottom:100px">
+                    @if (Model.UserProducts != null && Model.UserProducts.Count > 0)
+                    {
+                        @foreach (var userProduct in Model.UserProducts)
+                        {
+                            var product = userProduct.Product;
+                            <div class="col-md-4 mb-3">
+                                <div class="card">
+                                    <img src="~/images/@Url.Content(product.ProductPhoto)" class="card-img-top" alt="product">
+                                    <div class="card-body">
+                                        <h5 class="card-title">@product.ProductName</h5>
+                                        <h5 class="card=title">Alım Tarihi:  @userProduct.ProductPurchase.ToShortDateString()</h5>
+                                        <h5 class="card=title">İşlem Numarası:  @userProduct.ProcessId</h5>
+
+                                        <form method="post" asp-page-handler="Return" asp-route-processId="@userProduct.ProcessId" >
+                                            <button type="return" class="btn btn-primary">İade Et</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="col-md-12">
+                            <p>Kullanıcıya ait herhangi bir ürün bulunamadı.</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
